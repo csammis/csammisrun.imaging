@@ -1,0 +1,6 @@
+*.lst
+*.o
+*.elf
+.DS_Store*
+*.userprefs
+*.swp

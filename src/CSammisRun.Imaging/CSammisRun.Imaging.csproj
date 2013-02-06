@@ -35,6 +35,15 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IImageProcessor.cs" />
+    <Compile Include="Binarizer.cs" />
+    <Compile Include="Morphology\ConnectedImage.cs" />
+    <Compile Include="Morphology\ConnectedRegion.cs" />
+    <Compile Include="Morphology\Constants.cs" />
+    <Compile Include="Morphology\OneBppImage.cs" />
+    <Compile Include="Morphology\StructuralElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Morphology\" />
+  </ItemGroup>
 </Project>

@@ -16,9 +16,9 @@ namespace CSammisRun.Imaging.Morphology
         /// <summary>
         /// Gets the list of coordinates occupied by the region
         /// </summary>
-        private readonly List<Point> m_lCoordinates = new List<Point>();
-        private bool m_bRectValid = false;
-        private Rectangle m_rectBound;
+        private readonly List<Point> coordinates = new List<Point>();
+        private bool validBoundingRect;
+        private Rectangle boundingRect;
 
         /// <summary>
         /// Initializes a new ConnectedRegion
@@ -32,8 +32,8 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public void Merge(ConnectedRegion region)
         {
-            m_lCoordinates.AddRange(region.m_lCoordinates);
-            m_bRectValid = false;
+            coordinates.AddRange(region.coordinates);
+            validBoundingRect = false;
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace CSammisRun.Imaging.Morphology
         /// <param name="p"></param>
         public void AddCoordinate(Point p)
         {
-            m_lCoordinates.Add(p);
-            m_bRectValid = false;
+            coordinates.Add(p);
+            validBoundingRect = false;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public ReadOnlyCollection<Point> GetCoordinates()
         {
-            return new ReadOnlyCollection<Point>(m_lCoordinates);
+            return new ReadOnlyCollection<Point>(coordinates);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace CSammisRun.Imaging.Morphology
         {
             Rectangle boundary = GetBoundingRectangle();
             int pixelCount = boundary.Height * boundary.Width;
-            return ((double)m_lCoordinates.Count / pixelCount);
+            return ((double)coordinates.Count / pixelCount);
         }
 
         /// <summary>
@@ -70,12 +70,12 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public Rectangle GetBoundingRectangle()
         {
-            if (m_bRectValid)
+            if (validBoundingRect)
             {
-                return m_rectBound;
+                return boundingRect;
             }
 
-            m_lCoordinates.Sort(new Comparison<Point>(delegate (Point a, Point b)
+            coordinates.Sort(new Comparison<Point>(delegate (Point a, Point b)
                 {
                     if (a.X == b.X && a.Y == b.Y)
                     {
@@ -91,7 +91,7 @@ namespace CSammisRun.Imaging.Morphology
                 }));
 
             int top = Int32.MaxValue, left = Int32.MaxValue, right = -1, bottom = -1;
-            foreach (Point p in m_lCoordinates)
+            foreach (Point p in coordinates)
             {
                 if (p.Y < top)
                 {
@@ -111,9 +111,9 @@ namespace CSammisRun.Imaging.Morphology
                 }
             }
 
-            m_rectBound = new Rectangle(left, top, right - left, bottom - top);
-            m_bRectValid = true;
-            return m_rectBound;
+            boundingRect = new Rectangle(left, top, right - left, bottom - top);
+            validBoundingRect = true;
+            return boundingRect;
         }
     }
 }

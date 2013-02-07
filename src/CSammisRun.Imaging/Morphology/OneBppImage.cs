@@ -12,17 +12,13 @@ namespace CSammisRun.Imaging.Morphology
     /// </summary>
     public class OneBppImage
     {
-        private readonly string originalFilename;
         private byte[,] imageData;
-        private int imageWidth;
-        private int imageHeight;
 
         /// <summary>
         /// Initializes a new 1bpp image from a TIFF file
         /// </summary>
         public OneBppImage(string fileName)
         {
-            originalFilename = fileName;
             Read1BppImageData(fileName);
         }
 
@@ -31,9 +27,8 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public OneBppImage(byte[,] imageData)
         {
-            this.originalFilename = null;
-            this.imageWidth = imageData.GetUpperBound(0);
-            this.imageHeight = imageData.GetUpperBound(1);
+            this.Width = imageData.GetUpperBound(0);
+            this.Height = imageData.GetUpperBound(1);
             this.imageData = imageData;
         }
 
@@ -42,13 +37,12 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public OneBppImage(OneBppImage image)
         {
-            this.originalFilename = image.originalFilename;
-            this.imageHeight = image.imageHeight;
-            this.imageWidth = image.imageWidth;
+            this.Height = image.Height;
+            this.Width = image.Width;
 
-            this.imageData = new byte[imageWidth, imageHeight];
-            for (int x = 0; x < imageWidth; x++)
-                for (int y = 0; y < imageHeight; y++)
+            this.imageData = new byte[Width, Height];
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
                     this.imageData[x, y] = image.imageData[x, y];
         }
 
@@ -62,19 +56,11 @@ namespace CSammisRun.Imaging.Morphology
         }
 
         /// <summary>
-        /// Gets the filename used to create this image, or <c>null</c> if it was initialized from memory
-        /// </summary>
-        public string Filename
-        {
-            get { return originalFilename; }
-        }
-
-        /// <summary>
         /// Gets the width of the image
         /// </summary>
         public int Width
         {
-            get { return imageWidth; }
+            get; private set;
         }
 
         /// <summary>
@@ -82,7 +68,7 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public int Height
         {
-            get { return imageHeight; }
+            get; private set;
         }
 
         #region Public methods
@@ -197,10 +183,10 @@ namespace CSammisRun.Imaging.Morphology
                     throw new ArgumentException("fileName");
                 }
 
-                imageHeight = pageImage.Height;
-                imageWidth = pageImage.Width;
+                this.Height = pageImage.Height;
+                this.Width = pageImage.Width;
 
-                imageData = new byte[imageWidth, imageHeight];
+                imageData = new byte[this.Width, this.Height];
 
                 // Extract the pixel data from the bitmap
                 BitmapData data = pageImage.LockBits(new Rectangle(0, 0, pageImage.Width, pageImage.Height),
@@ -213,7 +199,7 @@ namespace CSammisRun.Imaging.Morphology
                 for (int y = 0; y < data.Height; y++)
                 {
                     int bmpDataRowBase = y * data.Stride;
-                    for (int x = 0; x < imageWidth; x++)
+                    for (int x = 0; x < this.Width; x++)
                     {
                         int bmpDataIndex = bmpDataRowBase + (x >> 3); // The index where the pixel is stored sub-byte
                         byte mask = (byte)(0x80 >> (x & 0x07));

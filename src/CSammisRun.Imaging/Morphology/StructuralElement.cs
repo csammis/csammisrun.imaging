@@ -10,7 +10,6 @@ namespace CSammisRun.Imaging.Morphology
     /// </summary>
     public class StructuralElement
     {
-        private readonly int width, height;
         private readonly List<Point> onPoints = new List<Point>();
 
         /// <summary>
@@ -19,12 +18,12 @@ namespace CSammisRun.Imaging.Morphology
         /// <param name="element">A two-dimensional (width x height) byte array </param>
         public StructuralElement(byte[,] element, Point origin)
         {
-            this.width = element.GetUpperBound(0) + 1;
-            this.height = element.GetUpperBound(1) + 1;
+            this.Width = element.GetUpperBound(0) + 1;
+            this.Height = element.GetUpperBound(1) + 1;
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < this.Width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < this.Height; y++)
                 {
                     if (element[x, y] == Constants.PIXEL_VALUE_INK)
                     {
@@ -39,7 +38,7 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public int Width
         {
-            get { return width; }
+            get; private set;
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public int Height
         {
-            get { return height; }
+            get; private set;
         }
 
         /// <summary>

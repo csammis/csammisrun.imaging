@@ -100,50 +100,45 @@ namespace CSammisRun.Imaging.Morphology
         /// <summary>
         /// Writes the image as a PNG with the connected regions colored
         /// </summary>
-        public override void Write32bppImageData(string fileName)
+        public override Bitmap CreateAsBitmap()
         {
             int whiteSpaceLabel = labelData[0, 0]; // Assume that the upper-left corner is whitespace
-            using (Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb))
+            Bitmap retval = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+
+            BitmapData bmpData = retval.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            byte[] data = new byte[bmpData.Stride * bmpData.Height];
+
+            PropertyInfo[] properties = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.Public);
+
+            for (int y = 0; y < Height; y++)
             {
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                byte[] data = new byte[bmpData.Stride * bmpData.Height];
-
-                PropertyInfo[] properties = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.Public);
-
-                for (int y = 0; y < Height; y++)
+                int rowBase = y * bmpData.Stride;
+                for (int x = 0; x < Width; x++)
                 {
-                    int rowBase = y * bmpData.Stride;
-                    for (int x = 0; x < Width; x++)
+                    byte labelValue = (byte)labelData[x, y];
+                    int finalIndex = rowBase + (x * 4);
+
+                    byte r, g, b;
+                    if (labelData[x, y] == whiteSpaceLabel)
                     {
-                        byte labelValue = (byte)labelData[x, y];
-                        int finalIndex = rowBase + (x * 4);
-
-                        byte r, g, b;
-                        if (labelData[x, y] == whiteSpaceLabel)
-                        {
-                            r = g = b = 0xFF;
-                        }
-                        else
-                        {
-                            int colorIndex = (labelValue + 1) % properties.Length;
-                            Color color = (Color)properties[colorIndex].GetValue(null, null);
-                            b = color.B; if (b > 0xD8) b -= 0x30;
-                            g = color.G; if (g > 0xD8) g -= 0x30;
-                            r = color.R; if (r > 0xD8) r -= 0x30;
-                        }
-                        // Write the byte values in BGRA order, full opacity for A
-                        data[finalIndex] = b; data[finalIndex + 1] = g; data[finalIndex + 2] = r; data[finalIndex + 3] = 0xFF;
+                        r = g = b = 0xFF;
                     }
+                    else
+                    {
+                        int colorIndex = (labelValue + 1) % properties.Length;
+                        Color color = (Color)properties[colorIndex].GetValue(null, null);
+                        b = color.B; if (b > 0xD8) b -= 0x30;
+                        g = color.G; if (g > 0xD8) g -= 0x30;
+                        r = color.R; if (r > 0xD8) r -= 0x30;
+                    }
+                    // Write the byte values in BGRA order, full opacity for A
+                    data[finalIndex] = b; data[finalIndex + 1] = g; data[finalIndex + 2] = r; data[finalIndex + 3] = 0xFF;
                 }
-                Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
-                bmp.UnlockBits(bmpData);
-
-                if (File.Exists(fileName))
-                {
-                    File.Delete(fileName);
-                }
-                bmp.Save(fileName, ImageFormat.Png);
             }
+            Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
+            retval.UnlockBits(bmpData);
+
+            return retval;
         }
 
         #region Region labeling methods

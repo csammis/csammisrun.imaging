@@ -225,39 +225,36 @@ namespace CSammisRun.Imaging.Morphology
             }
         }
 
-        public virtual void Write32bppImageData(string fileName)
+        /// <summary>
+        /// Create a 32bpp ARGB <see cref="Bitmap"/> from the 1bpp image
+        /// </summary>
+        public virtual Bitmap CreateAsBitmap()
         {
-            using (Bitmap bmp = new Bitmap(imageWidth, imageHeight, PixelFormat.Format32bppArgb))
+            Bitmap retval = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+
+            BitmapData bmpData = retval.LockBits(new Rectangle(0, 0, this.Width, this.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            int dataLength = bmpData.Stride * bmpData.Height;
+            byte[] data = new byte[dataLength];
+
+            for (int y = 0, dataIndex = 0; y < this.Height; y++)
             {
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, imageWidth, imageHeight), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                int dataLength = bmpData.Stride * bmpData.Height;
-                byte[] data = new byte[dataLength];
-
-                for (int y = 0, dataIndex = 0; y < imageHeight; y++)
+                int rowBase = y * bmpData.Stride;
+                for (int x = 0; x < this.Width; x++)
                 {
-                    int rowBase = y * bmpData.Stride;
-                    for (int x = 0; x < imageWidth; x++)
-                    {
-                        byte pixel = imageData[x, y];
-                        int finalIndex = rowBase + (x * 4);
+                    byte pixel = imageData[x, y];
+                    int finalIndex = rowBase + (x * 4);
 
-                        byte r = pixel, g = pixel, b = pixel;
-                        
-                        // Write the byte values in BGRA order, full opacity for A
-                        data[finalIndex] = b; data[finalIndex + 1] = g; data[finalIndex + 2] = r; data[finalIndex + 3] = 0xFF;
-                        dataIndex++;
-                    }
+                    byte r = pixel, g = pixel, b = pixel;
+                    
+                    // Write the byte values in BGRA order, full opacity for A
+                    data[finalIndex] = b; data[finalIndex + 1] = g; data[finalIndex + 2] = r; data[finalIndex + 3] = 0xFF;
+                    dataIndex++;
                 }
-                Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
-                bmp.UnlockBits(bmpData);
-
-                string newFilename = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".png");
-                if (File.Exists(newFilename))
-                {
-                    File.Delete(newFilename);
-                }
-                bmp.Save(newFilename, ImageFormat.Png);
             }
+            Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
+            retval.UnlockBits(bmpData);
+
+            return retval;
         }
         #endregion Image read/write methods
     }

@@ -5,3 +5,4 @@
 *.userprefs
 *.swp
 bin/
+test-results/

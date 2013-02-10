@@ -37,10 +37,10 @@ namespace CSammisRun.Imaging.Morphology
         /// <summary>
         /// Initializes a new 1bpp image from an array in memory
         /// </summary>
-        protected OneBppImage(byte[,] imageData)
+        public OneBppImage(byte[,] imageData)
         {
-            this.Width = imageData.GetUpperBound(0);
-            this.Height = imageData.GetUpperBound(1);
+            this.Width = imageData.GetLength(0);
+            this.Height = imageData.GetLength(1);
             this.ImageData = imageData;
         }
 

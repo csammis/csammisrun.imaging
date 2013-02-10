@@ -3,12 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSammisRun.Imaging", "CSammisRun.Imaging\CSammisRun.Imaging.csproj", "{BEF0DA0C-FD81-4FF4-87E8-0CC15F9CDFA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSammisRun.Imaging.Test", "CSammisRun.Imaging.Test\CSammisRun.Imaging.Test.csproj", "{0EB50A22-942F-481B-AFB8-CE6DB45B6994}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Default|Any CPU = Default|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB50A22-942F-481B-AFB8-CE6DB45B6994}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEF0DA0C-FD81-4FF4-87E8-0CC15F9CDFA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEF0DA0C-FD81-4FF4-87E8-0CC15F9CDFA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEF0DA0C-FD81-4FF4-87E8-0CC15F9CDFA3}.Release|Any CPU.ActiveCfg = Release|Any CPU

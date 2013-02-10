@@ -21,16 +21,6 @@ namespace CSammisRun.Imaging.Morphology
         }
 
         /// <summary>
-        /// Initializes a new 1bpp image from an array in memory
-        /// </summary>
-        public OneBppImage(byte[,] imageData)
-        {
-            this.Width = imageData.GetUpperBound(0);
-            this.Height = imageData.GetUpperBound(1);
-            this.ImageData = imageData;
-        }
-
-        /// <summary>
         /// Copies the specified <see cref="OneBppImage"/> into the new instance
         /// </summary>
         public OneBppImage(OneBppImage image)
@@ -42,6 +32,16 @@ namespace CSammisRun.Imaging.Morphology
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Height; y++)
                     this.ImageData[x, y] = image.ImageData[x, y];
+        }
+
+        /// <summary>
+        /// Initializes a new 1bpp image from an array in memory
+        /// </summary>
+        protected OneBppImage(byte[,] imageData)
+        {
+            this.Width = imageData.GetUpperBound(0);
+            this.Height = imageData.GetUpperBound(1);
+            this.ImageData = imageData;
         }
 
         /// <summary>
@@ -73,19 +73,19 @@ namespace CSammisRun.Imaging.Morphology
         /// <summary>
         /// Dilate the image with the specified <see cref="StructuralElement"/>
         /// </summary>
-        public void Dilate(StructuralElement element)
+        public OneBppImage Dilate(StructuralElement element)
         {
-            byte[,] data = new byte[Width, Height];
+            byte[,] data = new byte[this.Width, this.Height];
 
-            for (int y = 0; y < Height; y++)
+            for (int y = 0; y < this.Height; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < this.Width; x++)
                 {
                     foreach (Point p in element.ExaminePoints)
                     {
                         int testX = x + p.X;
                         int testY = y + p.Y;
-                        if (testX < 0 || testY < 0 || testX >= Width || testY >= Height)
+                        if (testX < 0 || testY < 0 || testX >= this.Width || testY >= this.Height)
                         {
                             continue;
                         }
@@ -102,19 +102,19 @@ namespace CSammisRun.Imaging.Morphology
                 }
             }
 
-            ImageData = data;
+            return new OneBppImage(data);
         }
 
         /// <summary>
         /// Erode the image with the specified <see cref="StructuralElement"/>
         /// </summary>
-        public void Erode(StructuralElement element)
+        public OneBppImage Erode(StructuralElement element)
         {
-            byte[,] data = new byte[Width, Height];
+            byte[,] data = new byte[this.Width, this.Height];
 
-            for (int y = 0; y < Height; y++)
+            for (int y = 0; y < this.Height; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < this.Width; x++)
                 {
                     if (ImageData[x, y] == Constants.PIXEL_VALUE_INK)
                     {
@@ -122,7 +122,7 @@ namespace CSammisRun.Imaging.Morphology
                         {
                             int testX = x + p.X;
                             int testY = y + p.Y;
-                            if (testX < 0 || testY < 0 || testX >= Width || testY >= Height)
+                            if (testX < 0 || testY < 0 || testX >= this.Width || testY >= this.Height)
                             {
                                 data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
                                 goto NextPixel;
@@ -146,25 +146,23 @@ namespace CSammisRun.Imaging.Morphology
                 }
             }
 
-            ImageData = data;
+            return new OneBppImage(data);
         }
 
         /// <summary>
         /// Perform a morphological closing given the specified <see cref="StructuralElement"/>
         /// </summary>
-        public void Close(StructuralElement element)
+        public OneBppImage Close(StructuralElement element)
         {
-            Dilate(element);
-            Erode(element);
+            return Dilate(element).Erode(element);
         }
 
         /// <summary>
         /// Perform a morphological opening given the specified <see cref="StructuralElement"/>
         /// </summary>
-        public void Open(StructuralElement element)
+        public OneBppImage Open(StructuralElement element)
         {
-            Erode(element);
-            Dilate(element);
+            return Erode(element).Dilate(element);
         }
         #endregion
 

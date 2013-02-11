@@ -14,7 +14,6 @@ namespace CSammisRun.Imaging.Test
     {
         private const int TEST_IMAGE_DIMENSION = 16;
 
-        // Erosion test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/erode.htm
         private byte[,] testImageSource = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -33,6 +32,7 @@ namespace CSammisRun.Imaging.Test
             {0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
+        // Erosion test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/erode.htm
         private byte[,] testImageErosionResult = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -51,6 +51,7 @@ namespace CSammisRun.Imaging.Test
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
+        // Dilation test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/dilate.htm
         private byte[,] testImageDilationResult = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},

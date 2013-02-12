@@ -1,7 +1,7 @@
-﻿namespace CSammisRun.Imaging.Morphology
+﻿namespace CSammisRun.Imaging
 {
     /// <summary>
-    /// A container for constants relating to 1bpp image morphology
+    /// A container for constants relating to 1bpp image features
     /// </summary>
     public static class Constants
     {

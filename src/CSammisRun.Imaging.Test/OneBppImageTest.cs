@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using NUnit.Framework;
 
+using CSammisRun.Imaging;
 using CSammisRun.Imaging.Morphology;
 
 namespace CSammisRun.Imaging.Test
@@ -163,7 +164,8 @@ namespace CSammisRun.Imaging.Test
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
 
-            OneBppImage testImage = new OneBppImage(testImageSource).Erode(element);
+            Operation operation = new Operation(element);
+            OneBppImage testImage = operation.Erode(new OneBppImage(testImageSource));
 
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -182,8 +184,9 @@ namespace CSammisRun.Imaging.Test
         {
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            OneBppImage testImage = new OneBppImage(testImageSource).Dilate(element);
+
+            Operation operation = new Operation(element);
+            OneBppImage testImage = operation.Dilate(new OneBppImage(testImageSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -202,8 +205,9 @@ namespace CSammisRun.Imaging.Test
         {
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            OneBppImage testImage = new OneBppImage(testImageSource).Open(element);
+
+            Operation operation = new Operation(element);
+            OneBppImage testImage = operation.Open(new OneBppImage(testImageSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -222,9 +226,10 @@ namespace CSammisRun.Imaging.Test
         {
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            OneBppImage testImage1 = new OneBppImage(testImageSource).Open(element);
-            OneBppImage testImage2 = testImage1.Open(element);
+
+            Operation operation = new Operation(element);
+            OneBppImage testImage1 = operation.Open(new OneBppImage(testImageSource));
+            OneBppImage testImage2 = operation.Open(testImage1);
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -243,8 +248,9 @@ namespace CSammisRun.Imaging.Test
         {
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            OneBppImage testImage = new OneBppImage(testImageClosingSource).Close(element);
+
+            Operation operation = new Operation(element);
+            OneBppImage testImage = operation.Close(new OneBppImage(testImageClosingSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -263,9 +269,10 @@ namespace CSammisRun.Imaging.Test
         {
             StructuralElement element = new StructuralElement(
                 new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            OneBppImage testImage1 = new OneBppImage(testImageClosingSource).Close(element);
-            OneBppImage testImage2 = testImage1.Close(element);
+
+            Operation operation = new Operation(element);
+            OneBppImage testImage1 = operation.Close(new OneBppImage(testImageClosingSource));
+            OneBppImage testImage2 = operation.Close(testImage1);
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {

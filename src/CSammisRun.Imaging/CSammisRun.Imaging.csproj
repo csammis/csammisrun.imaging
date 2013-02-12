@@ -38,9 +38,10 @@
     <Compile Include="Binarizer.cs" />
     <Compile Include="Morphology\ConnectedImage.cs" />
     <Compile Include="Morphology\ConnectedRegion.cs" />
-    <Compile Include="Morphology\Constants.cs" />
-    <Compile Include="Morphology\OneBppImage.cs" />
     <Compile Include="Morphology\StructuralElement.cs" />
+    <Compile Include="OneBppImage.cs" />
+    <Compile Include="Morphology\Operation.cs" />
+    <Compile Include="Constants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-namespace CSammisRun.Imaging.Morphology
+namespace CSammisRun.Imaging
 {
     /// <summary>
     /// A base class which represents a 1bpp TIFF image
@@ -79,103 +79,6 @@ namespace CSammisRun.Imaging.Morphology
         {
             get; private set;
         }
-
-        #region Public methods
-        /// <summary>
-        /// Dilate the image with the specified <see cref="StructuralElement"/>
-        /// </summary>
-        public OneBppImage Dilate(StructuralElement element)
-        {
-            byte[,] data = new byte[this.Width, this.Height];
-
-            for (int y = 0; y < this.Height; y++)
-            {
-                for (int x = 0; x < this.Width; x++)
-                {
-                    byte pointValue = Constants.PIXEL_VALUE_WHITESPACE;
-                    foreach (Point p in element.ExaminePoints)
-                    {
-                        int testX = x + p.X;
-                        int testY = y + p.Y;
-                        if (testX < 0 || testY < 0 || testX >= this.Width || testY >= this.Height)
-                        {
-                            continue;
-                        }
-
-                        if (this.ImageData[testX, testY] == Constants.PIXEL_VALUE_INK)
-                        {
-                            pointValue = Constants.PIXEL_VALUE_INK;
-                            break;
-                        }
-                    }
-
-                    data[x, y] = pointValue;
-                }
-            }
-
-            return new OneBppImage(data);
-        }
-
-        /// <summary>
-        /// Erode the image with the specified <see cref="StructuralElement"/>
-        /// </summary>
-        public OneBppImage Erode(StructuralElement element)
-        {
-            byte[,] data = new byte[this.Width, this.Height];
-
-            for (int y = 0; y < this.Height; y++)
-            {
-                for (int x = 0; x < this.Width; x++)
-                {
-                    if (this.ImageData[x, y] == Constants.PIXEL_VALUE_INK)
-                    {
-                        foreach (Point p in element.ExaminePoints)
-                        {
-                            int testX = x + p.X;
-                            int testY = y + p.Y;
-                            if (testX < 0 || testY < 0 || testX >= this.Width || testY >= this.Height)
-                            {
-                                data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
-                                goto NextPixel;
-                            }
-
-                            if (this.ImageData[testX, testY] != Constants.PIXEL_VALUE_INK)
-                            {
-                                data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
-                                goto NextPixel;
-                            }
-                        }
-
-                        data[x, y] = Constants.PIXEL_VALUE_INK;
-                    }
-                    else
-                    {
-                        data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
-                    }
-
-                NextPixel: ; // continue
-                }
-            }
-
-            return new OneBppImage(data);
-        }
-
-        /// <summary>
-        /// Perform a morphological closing given the specified <see cref="StructuralElement"/>
-        /// </summary>
-        public OneBppImage Close(StructuralElement element)
-        {
-            return Dilate(element).Erode(element);
-        }
-
-        /// <summary>
-        /// Perform a morphological opening given the specified <see cref="StructuralElement"/>
-        /// </summary>
-        public OneBppImage Open(StructuralElement element)
-        {
-            return Erode(element).Dilate(element);
-        }
-        #endregion
 
         #region Bitmap read/write methods
         /// <summary>

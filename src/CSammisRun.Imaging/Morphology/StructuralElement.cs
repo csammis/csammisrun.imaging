@@ -18,8 +18,8 @@ namespace CSammisRun.Imaging.Morphology
         /// <param name="element">A two-dimensional (width x height) byte array </param>
         public StructuralElement(byte[,] element, Point origin)
         {
-            this.Width = element.GetUpperBound(0) + 1;
-            this.Height = element.GetUpperBound(1) + 1;
+            this.Width = element.GetLength(0);
+            this.Height = element.GetLength(1);
 
             for (int x = 0; x < this.Width; x++)
             {
@@ -27,7 +27,7 @@ namespace CSammisRun.Imaging.Morphology
                 {
                     if (element[x, y] == Constants.PIXEL_VALUE_INK)
                     {
-                        onPoints.Add(new Point(x - origin.X, y - origin.Y));
+                        this.onPoints.Add(new Point(x - origin.X, y - origin.Y));
                     }
                 }
             }

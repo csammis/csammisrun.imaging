@@ -6,7 +6,7 @@ namespace CSammisRun.Imaging.Morphology
     public class Operation
     {
         /// <summary>
-        /// Gets the <see cref="StructuralStructuralElement"/> used for the morphology operation
+        /// Gets the <see cref="StructuralElement"/> used for the morphology operation
         /// </summary>
         public StructuralElement StructuralElement { get; private set; }
 

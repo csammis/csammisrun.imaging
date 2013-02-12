@@ -32,6 +32,24 @@ namespace CSammisRun.Imaging.Test
             {0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
+        private byte[,] testImageClosingSource = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0},
+            {0,0,1,1,0,0,0,0,0,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0},
+            {0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0},
+            {0,0,0,1,1,1,1,0,1,0,0,1,1,1,0,0},
+            {0,0,1,1,1,1,0,1,1,1,1,1,1,0,0,0},
+            {0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0},
+            {0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},
+            {0,1,0,0,0,0,1,0,1,1,0,0,0,0,0,0},
+            {0,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+            {0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0},
+            {0,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0},
+            {0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
         // Erosion test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/erode.htm
         private byte[,] testImageErosionResult = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -70,6 +88,44 @@ namespace CSammisRun.Imaging.Test
             {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0},
             {0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0}};
 
+        // Opening test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/open.htm
+        private byte[,] testImageOpeningResult = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0},
+            {0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+            {0,0,1,1,1,1,0,0,0,0,0,1,1,1,0,0},
+            {0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0},
+            {0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0},
+            {0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0},
+            {0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0},
+            {0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0},
+            {0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0},
+            {0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0},
+            {0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0},
+            {0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
+        // Closing test from http://homepages.inf.ed.ac.uk/rbf/HIPR2/close.htm
+        private byte[,] testImageClosingResult = new byte[TEST_IMAGE_DIMENSION, TEST_IMAGE_DIMENSION] {
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0},
+            {0,0,1,1,0,0,0,0,0,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,0},
+            {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0},
+            {0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0},
+            {0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
+            {0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0},
+            {0,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0},
+            {0,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+            {0,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+            {0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0},
+            {0,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0},
+            {0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
 
         [TestFixtureSetUp]
         public void SetUp()
@@ -83,6 +139,9 @@ namespace CSammisRun.Imaging.Test
                     testImageSource[x,y] = (testImageSource[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
                     testImageErosionResult[x,y] = (testImageErosionResult[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
                     testImageDilationResult[x,y] = (testImageDilationResult[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
+                    testImageOpeningResult[x,y] = (testImageOpeningResult[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
+                    testImageClosingSource[x,y] = (testImageClosingSource[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
+                    testImageClosingResult[x,y] = (testImageClosingResult[x,y] == 0) ? Constants.PIXEL_VALUE_WHITESPACE : Constants.PIXEL_VALUE_INK;
                 }
             }
         }
@@ -132,6 +191,88 @@ namespace CSammisRun.Imaging.Test
                 {
                     byte expected = testImageDilationResult[x,y];
                     byte actual = testImage.ImageData[x,y];
+                    
+                    Assert.AreEqual(expected, actual, "Pixel values at ({0},{1}) are unexpectedly different", x, y);
+                }
+            }
+        }
+
+        [Test]
+        public void TestOpening()
+        {
+            StructuralElement element = new StructuralElement(
+                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
+            
+            OneBppImage testImage = new OneBppImage(testImageSource).Open(element);
+            
+            for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
+            {
+                for (int x = 0; x < TEST_IMAGE_DIMENSION; x++)
+                {
+                    byte expected = testImageOpeningResult[x,y];
+                    byte actual = testImage.ImageData[x,y];
+                    
+                    Assert.AreEqual(expected, actual, "Pixel values at ({0},{1}) are unexpectedly different", x, y);
+                }
+            }
+        }
+
+        [Test]
+        public void TestSecondOpeningHasNoEffect()
+        {
+            StructuralElement element = new StructuralElement(
+                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
+            
+            OneBppImage testImage1 = new OneBppImage(testImageSource).Open(element);
+            OneBppImage testImage2 = testImage1.Open(element);
+            
+            for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
+            {
+                for (int x = 0; x < TEST_IMAGE_DIMENSION; x++)
+                {
+                    byte expected = testImage1.ImageData[x,y];
+                    byte actual = testImage2.ImageData[x,y];
+                    
+                    Assert.AreEqual(expected, actual, "Pixel values at ({0},{1}) are unexpectedly different", x, y);
+                }
+            }
+        }
+
+        [Test]
+        public void TestClosing()
+        {
+            StructuralElement element = new StructuralElement(
+                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
+            
+            OneBppImage testImage = new OneBppImage(testImageClosingSource).Close(element);
+            
+            for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
+            {
+                for (int x = 0; x < TEST_IMAGE_DIMENSION; x++)
+                {
+                    byte expected = testImageClosingResult[x,y];
+                    byte actual = testImage.ImageData[x,y];
+                    
+                    Assert.AreEqual(expected, actual, "Pixel values at ({0},{1}) are unexpectedly different", x, y);
+                }
+            }
+        }
+        
+        [Test]
+        public void TestSecondClosingHasNoEffect()
+        {
+            StructuralElement element = new StructuralElement(
+                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
+            
+            OneBppImage testImage1 = new OneBppImage(testImageClosingSource).Close(element);
+            OneBppImage testImage2 = testImage1.Close(element);
+            
+            for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
+            {
+                for (int x = 0; x < TEST_IMAGE_DIMENSION; x++)
+                {
+                    byte expected = testImage1.ImageData[x,y];
+                    byte actual = testImage2.ImageData[x,y];
                     
                     Assert.AreEqual(expected, actual, "Pixel values at ({0},{1}) are unexpectedly different", x, y);
                 }

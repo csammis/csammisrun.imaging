@@ -91,7 +91,7 @@ namespace CSammisRun.Imaging.Morphology
                             continue;
                         }
 
-                        if (ImageData[testX, testY] == Constants.PIXEL_VALUE_INK)
+                        if (this.ImageData[testX, testY] == Constants.PIXEL_VALUE_INK)
                         {
                             pointValue = Constants.PIXEL_VALUE_INK;
                             break;
@@ -116,7 +116,7 @@ namespace CSammisRun.Imaging.Morphology
             {
                 for (int x = 0; x < this.Width; x++)
                 {
-                    if (ImageData[x, y] == Constants.PIXEL_VALUE_INK)
+                    if (this.ImageData[x, y] == Constants.PIXEL_VALUE_INK)
                     {
                         foreach (Point p in element.ExaminePoints)
                         {
@@ -128,7 +128,7 @@ namespace CSammisRun.Imaging.Morphology
                                 goto NextPixel;
                             }
 
-                            if (ImageData[testX, testY] != Constants.PIXEL_VALUE_INK)
+                            if (this.ImageData[testX, testY] != Constants.PIXEL_VALUE_INK)
                             {
                                 data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
                                 goto NextPixel;
@@ -223,7 +223,7 @@ namespace CSammisRun.Imaging.Morphology
                 int rowBase = y * bmpData.Stride;
                 for (int x = 0; x < this.Width; x++)
                 {
-                    byte pixel = ImageData[x, y];
+                    byte pixel = this.ImageData[x, y];
                     int finalIndex = rowBase + (x * 4);
 
                     byte r = pixel, g = pixel, b = pixel;

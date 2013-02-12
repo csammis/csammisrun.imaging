@@ -36,6 +36,15 @@ namespace CSammisRun.Imaging.Test
 
             Assert.AreEqual(TEST_IMAGE_DIMENSION, testImage.Width);
             Assert.AreEqual(TEST_IMAGE_DIMENSION, testImage.Height);
+
+            for (int x = 0; x < testImage.Width; x++)
+            {
+                for (int y = 0; y < testImage.Height; y++)
+                {
+                    Assert.AreEqual(testImageSource[x,y], testImage.ImageData[x,y],
+                                    "Pixels are not identical at ({0},{1})", x, y);
+                }
+            }
         }
 
         [Test]

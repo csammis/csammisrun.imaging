@@ -81,6 +81,7 @@ namespace CSammisRun.Imaging.Morphology
             {
                 for (int x = 0; x < this.Width; x++)
                 {
+                    byte pointValue = Constants.PIXEL_VALUE_WHITESPACE;
                     foreach (Point p in element.ExaminePoints)
                     {
                         int testX = x + p.X;
@@ -92,13 +93,12 @@ namespace CSammisRun.Imaging.Morphology
 
                         if (ImageData[testX, testY] == Constants.PIXEL_VALUE_INK)
                         {
-                            data[x, y] = Constants.PIXEL_VALUE_INK;
-                            goto NextPixel;
+                            pointValue = Constants.PIXEL_VALUE_INK;
+                            break;
                         }
                     }
-                    data[x, y] = Constants.PIXEL_VALUE_WHITESPACE;
 
-                NextPixel: ; // continue
+                    data[x, y] = pointValue;
                 }
             }
 

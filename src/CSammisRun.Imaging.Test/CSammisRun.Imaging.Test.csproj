@@ -37,6 +37,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="OneBppImageTest.cs" />
     <Compile Include="StructuralElementTest.cs" />
+    <Compile Include="MorphoOperationsTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -123,11 +123,16 @@ namespace CSammisRun.Imaging.Test
             {0,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0},
             {0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-        
+
+        private Operation morphoOperation;
         
         [TestFixtureSetUp]
         public void SetUp()
         {
+            StructuralElement element = new StructuralElement(
+                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
+            morphoOperation = new Operation(element);
+
             // Fix up the test arrays with the right values.
             // 0s are a lot prettier to look at than 255s!
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
@@ -147,11 +152,7 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestErosion()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage = operation.Erode(new OneBppImage(testImageSource));
+            OneBppImage testImage = morphoOperation.Erode(new OneBppImage(testImageSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -168,11 +169,7 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestDilation()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage = operation.Dilate(new OneBppImage(testImageSource));
+            OneBppImage testImage = morphoOperation.Dilate(new OneBppImage(testImageSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -189,11 +186,7 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestOpening()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage = operation.Open(new OneBppImage(testImageSource));
+            OneBppImage testImage = morphoOperation.Open(new OneBppImage(testImageSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -210,12 +203,8 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestSecondOpeningHasNoEffect()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage1 = operation.Open(new OneBppImage(testImageSource));
-            OneBppImage testImage2 = operation.Open(testImage1);
+            OneBppImage testImage1 = morphoOperation.Open(new OneBppImage(testImageSource));
+            OneBppImage testImage2 = morphoOperation.Open(testImage1);
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -232,11 +221,7 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestClosing()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage = operation.Close(new OneBppImage(testImageClosingSource));
+            OneBppImage testImage = morphoOperation.Close(new OneBppImage(testImageClosingSource));
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {
@@ -253,12 +238,8 @@ namespace CSammisRun.Imaging.Test
         [Test]
         public void TestSecondClosingHasNoEffect()
         {
-            StructuralElement element = new StructuralElement(
-                new byte[3,3] { {0,0,0}, {0,0,0}, {0,0,0} }, new Point(1,1));
-            
-            Operation operation = new Operation(element);
-            OneBppImage testImage1 = operation.Close(new OneBppImage(testImageClosingSource));
-            OneBppImage testImage2 = operation.Close(testImage1);
+            OneBppImage testImage1 = morphoOperation.Close(new OneBppImage(testImageClosingSource));
+            OneBppImage testImage2 = morphoOperation.Close(testImage1);
             
             for (int y = 0; y < TEST_IMAGE_DIMENSION; y++)
             {

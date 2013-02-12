@@ -17,7 +17,18 @@ namespace CSammisRun.Imaging.Morphology
         /// </summary>
         public OneBppImage(string fileName)
         {
-            Read1BppImageData(fileName);
+            using (Bitmap bitmap = new Bitmap(fileName))
+            {
+                FromBitmap(bitmap);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new 1bpp image from a <see cref="Bitmap"/>
+        /// </summary>
+        public OneBppImage(Bitmap bitmap)
+        {
+            FromBitmap(bitmap);
         }
 
         /// <summary>
@@ -166,43 +177,41 @@ namespace CSammisRun.Imaging.Morphology
         }
         #endregion
 
-        #region Image read/write methods
+        #region Bitmap read/write methods
         /// <summary>
-        /// Reads pixel data from a 1bpp image on disk
+        /// Reads pixel data from a 1bpp <see cref="Bitmap"/>
         /// </summary>
-        private void Read1BppImageData(string fileName)
+        /// <remarks>Use a <see cref="Binarizer"/> to get a 1bpp bitmap from a more complex image.</remarks>
+        private void FromBitmap(Bitmap pageImage)
         {
-            using (Bitmap pageImage = new Bitmap(fileName))
+            if (pageImage.PixelFormat != PixelFormat.Format1bppIndexed)
             {
-                if (pageImage.PixelFormat != PixelFormat.Format1bppIndexed)
+                throw new ArgumentException("fileName");
+            }
+
+            this.Height = pageImage.Height;
+            this.Width = pageImage.Width;
+
+            this.ImageData = new byte[this.Width, this.Height];
+
+            // Extract the pixel data from the bitmap
+            BitmapData data = pageImage.LockBits(new Rectangle(0, 0, pageImage.Width, pageImage.Height),
+                ImageLockMode.ReadOnly, PixelFormat.Format1bppIndexed);
+            int dataLength = data.Stride * data.Height;
+            byte[] bmpData = new byte[dataLength];
+            Marshal.Copy(data.Scan0, bmpData, 0, dataLength);
+            pageImage.UnlockBits(data);
+
+            for (int y = 0; y < data.Height; y++)
+            {
+                int bmpDataRowBase = y * data.Stride;
+                for (int x = 0; x < this.Width; x++)
                 {
-                    throw new ArgumentException("fileName");
-                }
+                    int bmpDataIndex = bmpDataRowBase + (x >> 3); // The index where the pixel is stored sub-byte
+                    byte mask = (byte)(0x80 >> (x & 0x07));
 
-                this.Height = pageImage.Height;
-                this.Width = pageImage.Width;
-
-                this.ImageData = new byte[this.Width, this.Height];
-
-                // Extract the pixel data from the bitmap
-                BitmapData data = pageImage.LockBits(new Rectangle(0, 0, pageImage.Width, pageImage.Height),
-                    ImageLockMode.ReadOnly, PixelFormat.Format1bppIndexed);
-                int dataLength = data.Stride * data.Height;
-                byte[] bmpData = new byte[dataLength];
-                Marshal.Copy(data.Scan0, bmpData, 0, dataLength);
-                pageImage.UnlockBits(data);
-
-                for (int y = 0; y < data.Height; y++)
-                {
-                    int bmpDataRowBase = y * data.Stride;
-                    for (int x = 0; x < this.Width; x++)
-                    {
-                        int bmpDataIndex = bmpDataRowBase + (x >> 3); // The index where the pixel is stored sub-byte
-                        byte mask = (byte)(0x80 >> (x & 0x07));
-
-                        int pixel = (bmpData[bmpDataIndex] & mask);
-                        this.ImageData[x, y] = (byte)((pixel == 0) ? Constants.PIXEL_VALUE_INK : Constants.PIXEL_VALUE_WHITESPACE);
-                    }
+                    int pixel = (bmpData[bmpDataIndex] & mask);
+                    this.ImageData[x, y] = (byte)((pixel == 0) ? Constants.PIXEL_VALUE_INK : Constants.PIXEL_VALUE_WHITESPACE);
                 }
             }
         }

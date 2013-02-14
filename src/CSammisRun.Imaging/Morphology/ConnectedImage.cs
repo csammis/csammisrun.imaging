@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace CSammisRun.Imaging.Morphology
 {

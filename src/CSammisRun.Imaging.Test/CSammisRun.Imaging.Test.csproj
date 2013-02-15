@@ -38,6 +38,7 @@
     <Compile Include="OneBppImageTest.cs" />
     <Compile Include="StructuralElementTest.cs" />
     <Compile Include="MorphoOperationsTest.cs" />
+    <Compile Include="BinarizerTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -45,5 +46,13 @@
       <Project>{BEF0DA0C-FD81-4FF4-87E8-0CC15F9CDFA3}</Project>
       <Name>CSammisRun.Imaging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\10x20checkerboard.bmp">
+      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

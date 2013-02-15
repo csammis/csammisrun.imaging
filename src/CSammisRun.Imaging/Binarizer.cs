@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace CSammisRun.Imaging
 {
-    public class Binarizer : IImageProcessor
+    public class Binarizer
     {
         /// <summary>
         /// The threshold value at which RGB pixel values are set to white instead of black

@@ -29,7 +29,10 @@ namespace CSammisRun.Imaging
                 else
                 {
                     source = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppArgb);
-                    source.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+                    if (image.HorizontalResolution != 0 && image.VerticalResolution != 0) //cstodo is this a Mono thing?
+                    {
+                        source.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+                    }
                     using (Graphics g = Graphics.FromImage(source))
                     {
                         g.DrawImageUnscaled(image, 0, 0);

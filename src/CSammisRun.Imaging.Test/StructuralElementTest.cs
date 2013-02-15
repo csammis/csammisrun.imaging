@@ -1,8 +1,7 @@
-using System;
+using System.Drawing;
 using NUnit.Framework;
 
 using CSammisRun.Imaging.Morphology;
-using System.Drawing;
 
 namespace CSammisRun.Imaging.Test
 {

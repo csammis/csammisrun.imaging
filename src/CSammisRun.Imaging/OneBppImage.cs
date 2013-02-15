@@ -88,7 +88,7 @@ namespace CSammisRun.Imaging
         {
             if (pageImage.PixelFormat != PixelFormat.Format1bppIndexed)
             {
-                throw new ArgumentException("fileName");
+                throw new ArgumentException("pageImage.PixelFormat");
             }
 
             this.Height = pageImage.Height;

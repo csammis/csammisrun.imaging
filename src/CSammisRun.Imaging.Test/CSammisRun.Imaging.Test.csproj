@@ -54,5 +54,6 @@
     <EmbeddedResource Include="Resources\10x20checkerboard.bmp">
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\10x20checkerboard.png" />
   </ItemGroup>
 </Project>

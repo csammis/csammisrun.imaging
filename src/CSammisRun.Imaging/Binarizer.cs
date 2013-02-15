@@ -9,10 +9,11 @@ namespace CSammisRun.Imaging
         /// <summary>
         /// The threshold value at which RGB pixel values are set to white instead of black
         /// </summary>
-        private const int PIXEL_VALUE_THRESHOLD = 500;
+        public int Threshold { get; set; }
 
         public Binarizer()
         {
+            Threshold = 500;
         }
 
         public Bitmap ProcessImage(Bitmap image)
@@ -65,10 +66,12 @@ namespace CSammisRun.Imaging
                     for (int x = 0; x < source.Width; x++, sourceIndex += 4)
                     {
                         // Compute total of RGB values, skipping A
-                        if ((sourceData[sourceIndex + 1] + sourceData[sourceIndex + 2] + sourceData[sourceIndex + 3]) > PIXEL_VALUE_THRESHOLD)
+                        int rgbTotals = sourceData[sourceIndex + 1] + sourceData[sourceIndex + 2] + sourceData[sourceIndex + 3];
+                        if (rgbTotals > this.Threshold)
                         {
                             destinationValue += (byte)pixelValue;
                         }
+
                         if (pixelValue == 1)
                         {
                             destinationData[destinationIndex] = destinationValue;
